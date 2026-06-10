@@ -1,0 +1,17 @@
+# Archivos generados automáticamente por Python (caché de bytecode)
+__pycache__/
+*.pyc
+
+# Entornos virtuales (por si se crea uno más adelante)
+venv/
+.venv/
+
+# Configuración local de editores
+.vscode/
+.idea/
+
+# Material de la cátedra (consigna, rúbrica, tutorial) — no es parte de la entrega
+requerimientos TPI/
+
+# Backups y archivos temporales
+originales/
