@@ -32,7 +32,9 @@ def main():
     """
     Función principal: carga los datos y ejecuta el bucle del menú.
     """
-    pass
+    paises = datos.cargar_paises(RUTA_CSV)
+    print(f"Se cargaron {len(paises)} países desde '{RUTA_CSV}'.")
+
 
 
 if __name__ == "__main__":
