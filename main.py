@@ -35,6 +35,31 @@ def main():
     paises = datos.cargar_paises(RUTA_CSV)
     print(f"Se cargaron {len(paises)} países desde '{RUTA_CSV}'.")
 
+    opcion = None
+    while opcion != 8:
+        mostrar_menu()
+        opcion = validaciones.validar_opcion_menu(1, 8)
+        match opcion:
+            case 1:
+                pass
+            case 2:
+                pass
+            case 3:
+                pass
+            case 4:
+                pass
+            case 5:
+                pass
+            case 6:
+                pass
+            case 7:
+                pass
+            case 8:
+                print("Programa finalizado.")
+            # Lo dejo como medida de seguridad, aunque validar_opcion_menu ya garantiza que opcion siempre sera entre 1 y 7.
+            case _:
+                print("Opcion no valida. Seleccione un numero del 1 al 7.\n")
+
 
 
 if __name__ == "__main__":

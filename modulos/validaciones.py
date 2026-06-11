@@ -1,91 +1,130 @@
 # Módulo de validaciones: pide datos al usuario y reintenta hasta que sean válidos.
 
 
+# Verifica si el usuario desea salir del programa.
+def verificar_salida(valor_ingresado):
+
+    # Eliminamos espacios y convertimos a mayúsculas
+    valor_ingresado = valor_ingresado.strip().upper()
+
+    # Verificamos si el usuario ingresó ESC
+    if valor_ingresado == "ESC":
+        print("\nPrograma finalizado.")
+        exit()
+
+
 def pedir_texto(mensaje):
-    """
-    Pide un texto por teclado. No acepta entradas vacías.
-    """
-    pass
 
-def validar_entero(num: str | float | int) -> int:
-    """
-    Convierte un valor de entrada a un número entero y valida su formato.
-    No pide valor por consola, sino que recibe el valor a validar como argumento.
-    Si el argumento no posee una representación entera válida,
-    interrumpe el flujo lanzando una excepción controlada con un mensaje descriptivo.
+    # Repite el pedido hasta que el usuario ingrese un texto válido
+    while True:
+        try:
+            # Pedimos el texto y eliminamos espacios al inicio y al final
+            texto_ingresado = input(mensaje).strip()
 
-    Args:
-        num (str | float | int): El valor o cadena de texto que se desea
-            validar y transformar.
+            # Verificamos si el usuario desea salir
+            verificar_salida(texto_ingresado)
 
-    Returns:
-        int: El equivalente numérico entero del valor de entrada.
+            # Verificamos que el campo no esté vacío
+            if texto_ingresado == "":
+                raise ValueError("No puede dejar el campo vacío.")
 
-    Raises:
-        ValueError: Si el parámetro provisto no puede ser parseado o
-            convertido de manera segura a un tipo de dato entero.
-        TypeError: Si el tipo de dato es incorrecto o incompatible.
-    """
+            # Verificamos que el texto no sea solamente numérico
+            if texto_ingresado.isdigit():
+                raise ValueError("No puede ingresar solo números.")
 
+            # Devolvemos el texto validado
+            return texto_ingresado
+
+        # Mostramos el mensaje de error
+        except ValueError as error:
+            print(f"\nError: {error}")
+
+
+def validar_entero(num):
+
+    # Intenta convertir el valor recibido a número entero
     try:
         return int(num)
+
+    # Si no se puede convertir, muestra un error controlado
     except (ValueError, TypeError):
-        raise ValueError("El valor ingresado debe ser un numero entero.")
+        raise ValueError("Debe ingresar un número entero válido.")
 
 
-def validar_minimo(mensaje: str, minimo: int) -> int:
-    """
-    Pide al usuario un número entero mayor o igual a un valor mínimo por consola.
+def validar_minimo(mensaje, minimo):
 
-    Insiste de forma interactiva solicitando la entrada hasta que el usuario
-    ingrese un valor que cumpla con el tipo de dato y la regla de negocio.
-
-    Args:
-        mensaje (str): El texto explicativo que se le muestra al usuario en consola.
-        minimo (int): El límite numérico inferior permitido (inclusive).
-
-    Returns:
-        int: El número entero validado que cumple con ser >= minimo.
-    """
+    # Repite el pedido hasta que el usuario ingrese un número válido
     while True:
         try:
-            valor = validar_entero(input(mensaje).strip())
+            # Pedimos el valor ingresado
+            valor_ingresado = input(mensaje).strip()
+
+            # Verificamos si el usuario desea salir
+            verificar_salida(valor_ingresado)
+
+            # Convertimos el valor a entero
+            valor = validar_entero(valor_ingresado)
+
+            # Verificamos que el valor no sea menor al mínimo permitido
             if valor < minimo:
-                raise ValueError(f"El numero debe ser mayor o igual a {minimo}.")
+                raise ValueError(f"Debe ingresar un número mayor o igual a {minimo}.")
+
+            # Devolvemos el valor validado
             return valor
+
+        # Mostramos el mensaje de error
         except ValueError as error:
-            print(f"Error: {error}")
+            print(f"\nError: {error}")
 
-def validar_opcion_menu(minimo: int, maximo: int) -> int:
-    """
-    Solicita y valida una opción del menú dentro de un rango inclusivo.
-    Insiste de forma interactiva hasta que el usuario ingrese un número entero
-    que cumpla con la regla de negocio (entre minimo y maximo).
 
-    Args:
-        minimo (int): El límite numérico inferior permitido (inclusive).
-        maximo (int): El límite numérico superior permitido (inclusive).
+def validar_opcion_menu(minimo, maximo):
 
-    Returns:
-        int: La opción válida seleccionada por el usuario.
-    """
+    # Repite el pedido hasta que el usuario ingrese una opción válida
     while True:
         try:
-            # El método validar_entero se encarga de lanzar ValueError si la entrada no es un número entero válido.
-            opcion = validar_entero(
-                input(f"Seleccione una opcion de ({minimo} a {maximo}) del menú: ").strip()
-            )
-            if minimo <= opcion <= maximo:
-                return opcion
-            print(f"Error: Debe ingresar un numero entre {minimo} y {maximo}.\n")
-        except ValueError:
-            print("Error: Debe ingresar un numero entero.\n")
+            # Pedimos la opción del menú
+            opcion_ingresada = input(
+                f"\nSeleccione una opción ({minimo} a {maximo}): "
+            ).strip()
+
+            # Verificamos si el usuario desea salir
+            verificar_salida(opcion_ingresada)
+
+            # Convertimos la opción a entero
+            opcion = validar_entero(opcion_ingresada)
+
+            # Verificamos que la opción esté dentro del rango permitido
+            if opcion < minimo or opcion > maximo:
+                raise ValueError(f"La opción debe estar entre {minimo} y {maximo}.")
+
+            # Devolvemos la opción validada
+            return opcion
+
+        # Mostramos el mensaje de error
+        except ValueError as error:
+            print(f"\nError: {error}")
 
 
 def pedir_rango():
-    """
-    Pide un rango (mínimo y máximo) y garantiza que mínimo <= máximo.
 
-    Devuelve una tupla (minimo, maximo).
-    """
-    pass
+    # Repite el pedido hasta que el usuario ingrese un rango válido
+    while True:
+        try:
+            # Pedimos el valor mínimo del rango
+            minimo = validar_minimo("Ingrese el valor mínimo: ", 0)
+
+            # Pedimos el valor máximo del rango
+            maximo = validar_minimo("Ingrese el valor máximo: ", 0)
+
+            # Verificamos que el mínimo no sea mayor que el máximo
+            if minimo > maximo:
+                raise ValueError(
+                    "El valor mínimo no puede ser mayor que el valor máximo."
+                )
+
+            # Devolvemos ambos valores
+            return minimo, maximo
+
+        # Mostramos el mensaje de error
+        except ValueError as error:
+            print(f"\nError: {error}")
