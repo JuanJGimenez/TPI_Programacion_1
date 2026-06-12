@@ -1,86 +1,88 @@
-# Módulo de datos: carga y guardado del archivo CSV de países (persistencia).
+# datos.py
 
 import csv
-import os
-
-# Constante CAMPOS que componen el registro de un país, en el orden del CSV.
-CAMPOS = ["nombre", "poblacion", "superficie", "continente"]
 
 
-def convertir_fila(fila):
-    """
-    Convierte una fila del CSV en un diccionario de país con tipos correctos.
+def cargar_paises(ruta_data_paises_csv):
 
-    Devuelve None si la fila tiene campos faltantes, vacíos o números inválidos.
-    """
-    try:
-        nombre = fila["nombre"].strip()
-        continente = fila["continente"].strip()
-        poblacion = int(fila["poblacion"])
-        superficie = int(fila["superficie"])
-    except (KeyError, TypeError, ValueError, AttributeError):
-        return None
-
-    if nombre == "" or continente == "" or poblacion < 0 or superficie <= 0:
-        return None
-
-    return {
-        "nombre": nombre,
-        "poblacion": poblacion,
-        "superficie": superficie,
-        "continente": continente,
-    }
-
-
-def cargar_paises(ruta_csv):
-    """
-    Lee el archivo CSV y devuelve una lista de diccionarios de países.
-
-    Las filas con formato inválido se informan por pantalla y se omiten,
-    de modo que un error en una línea no impida cargar el resto.
-    """
-    paises = []
-
-    if not os.path.exists(ruta_csv):
-        print(f"Aviso: no se encontró el archivo '{ruta_csv}'. Se inicia sin datos.")
-        return paises
+    # Lista donde se guardarán todos los países cargados desde el CSV
+    lista_paises = []
 
     try:
-        with open(ruta_csv, "r", encoding="utf-8") as archivo:
-            # (DictReader): Clase del módulo nativo csv en Python que sirve para leer archivos CSV y
-            # mapear la información de cada fila directamente a un diccionario
-            # Devuelve cada fila como un diccionario. Usa la primera línea del archivo
-            # como las claves (keys) y los datos de la fila como los valores (values)
-            lector = csv.DictReader(archivo)
-            # start=2 porque la fila 1 del archivo es el encabezado.
-            for numero_fila, fila in enumerate(lector, start=2):
-                pais = convertir_fila(fila)
-                if pais is None:
-                    print(
-                        f"Aviso: la fila {numero_fila} tiene formato inválido y se omite."
+
+        # Abrimos el archivo CSV en modo lectura
+        with open(ruta_data_paises_csv, encoding="utf-8") as archivo_paises_csv:
+
+            # DictReader convierte cada fila del CSV en un diccionario
+            lector_csv = csv.DictReader(archivo_paises_csv)
+
+            # Recorremos cada fila del archivo CSV
+            for fila_pais in lector_csv:
+
+                # Creamos un diccionario con los datos del país
+                pais = {
+
+                    # Guardamos el nombre del país usando la clave "pais"
+                    "pais": fila_pais["nombre"].strip(),
+
+                    # Convertimos la población a número entero
+                    "poblacion": int(fila_pais["poblacion"]),
+
+                    # Convertimos la superficie a número entero
+                    "superficie": int(fila_pais["superficie"]),
+
+                    # Guardamos el continente
+                    "continente": fila_pais["continente"].strip()
+                }
+
+                # Verificamos que los textos no estén vacíos
+                if pais["pais"] == "" or pais["continente"] == "":
+                    raise ValueError("El archivo CSV tiene campos vacíos.")
+
+                # Verificamos que población y superficie sean mayores a cero
+                if pais["poblacion"] <= 0:
+                    raise ValueError(
+                        "La población debe ser mayor a cero."
                     )
-                else:
-                    paises.append(pais)
-    except OSError as error:
-        print(f"Error al leer el archivo CSV: {error}")
 
-    return paises
+                if pais["superficie"] <= 0:
+                    raise ValueError(
+                        "La superficie debe ser mayor a cero."
+                    )
+
+                # Agregamos el país a la lista general
+                lista_paises.append(pais)
+
+    # Error si el archivo no existe
+    except FileNotFoundError:
+        print("Error: no se encontró el archivo CSV de países.")
+
+    # Error si el CSV tiene columnas incorrectas
+    except KeyError:
+        print("Error: el archivo CSV no tiene el formato correcto.")
+
+    # Error si hay campos vacíos o números inválidos
+    except ValueError as error:
+        print(f"Error: {error}")
+
+    # Devolvemos la lista completa de países
+    return lista_paises
 
 
-def guardar_paises(ruta_csv, paises):
-    """
-    Escribe la lista completa de países en el archivo CSV.
+def mostrar_paises(lista_paises):
 
-    Devuelve True si se guardó correctamente y False si hubo un error.
-    """
-    try:
-        with open(ruta_csv, "w", encoding="utf-8", newline="") as archivo:
-            escritor = csv.DictWriter(archivo, fieldnames=CAMPOS)
-            # writeheader() escribe la primera línea del archivo con los nombres
-            # de los campos (keys) definidos en CAMPOS
-            escritor.writeheader()
-            escritor.writerows(paises)
-        return True
-    except OSError as error:
-        print(f"Error al guardar el archivo CSV: {error}")
-        return False
+    # Verificamos si la lista está vacía
+    if len(lista_paises) == 0:
+        print("No hay países cargados.")
+        return
+
+    print("\nLISTA DE PAÍSES")
+
+    # Recorremos la lista de países
+    for pais in lista_paises:
+
+        # Mostramos los datos de cada país
+        print(f"\nPaís: {pais['pais']}")
+        print(f"Población: {pais['poblacion']}")
+        print(f"Superficie: {pais['superficie']} km²")
+        print(f"Continente: {pais['continente']}")
