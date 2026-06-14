@@ -54,7 +54,7 @@ El sistema permite:
 
 * main.py
 * data/paises.csv
-* modulos/**init**.py
+* modulos/__init__.py
 * modulos/abm_paises.py
 * modulos/busquedas.py
 * modulos/datos.py
