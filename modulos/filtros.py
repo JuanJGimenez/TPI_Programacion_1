@@ -14,7 +14,6 @@ def mostrar_paises_filtrados(paises_filtrados: list[dict]) -> None:
     Args:
         paises_filtrados: Lista de diccionarios de los países que superaron los filtros.
     """
-    # Verificamos si la lista de resultados está vacía
     if len(paises_filtrados) == 0:
         print("\nNo se encontraron países con ese filtro.")
         return
@@ -35,24 +34,20 @@ def filtrar_por_continente(lista_paises: list[dict]) -> None:
     Args:
         lista_paises: Lista global de diccionarios de países registrados.
     """
-    # Verificamos que existan países cargados
     if len(lista_paises) == 0:
         print("\nNo hay países cargados.")
         return
-
+        
     # Pedimos el continente a filtrar
     continente_buscado = (
         validaciones.pedir_texto("Ingrese el continente a filtrar: ").strip().lower()
     )
     # Lista donde se guardarán los países filtrados
     paises_filtrados = []
-    # Recorremos la lista de países
+    
     for pais in lista_paises:
-        # Comparamos ignorando mayúsculas y minúsculas
         if pais["continente"].strip().lower() == continente_buscado:
-            # Agregamos el país que cumple con el filtro
             paises_filtrados.append(pais)
-
     # Mostramos el resultado del filtro
     mostrar_paises_filtrados(paises_filtrados)
 
@@ -65,24 +60,19 @@ def filtrar_por_poblacion(lista_paises: list[dict]) -> None:
     Args:
         lista_paises: Lista global de diccionarios de países registrados.
     """
-    # Verificamos que existan países cargados
     if len(lista_paises) == 0:
         print("\nNo hay países cargados.")
         return
 
     print("\nFILTRO POR RANGO DE POBLACIÓN")
-    # Pedimos el rango de población
+    
     poblacion_minima, poblacion_maxima = validaciones.pedir_rango()
-    # Lista donde se guardarán los países filtrados
     paises_filtrados = []
-    # Recorremos la lista de países
+    
     for pais in lista_paises:
-        # Verificamos si la población está dentro del rango ingresado
         if poblacion_minima <= pais["poblacion"] <= poblacion_maxima:
-            # Agregamos el país que cumple con el filtro
             paises_filtrados.append(pais)
-
-    # Mostramos el resultado del filtro
+            
     mostrar_paises_filtrados(paises_filtrados)
 
 
@@ -95,24 +85,17 @@ def filtrar_por_superficie(lista_paises: list[dict]) -> None:
     Args:
         lista_paises: Lista global de diccionarios de países registrados.
     """
-    # Verificamos que existan países cargados
     if len(lista_paises) == 0:
         print("\nNo hay países cargados.")
         return
 
     print("\nFILTRO POR RANGO DE SUPERFICIE")
-    # Pedimos el rango de superficie
     superficie_minima, superficie_maxima = validaciones.pedir_rango()
-    # Lista donde se guardarán los países filtrados
     paises_filtrados = []
-    # Recorremos la lista de países
     for pais in lista_paises:
-        # Verificamos si la superficie está dentro del rango ingresado
         if superficie_minima <= pais["superficie"] <= superficie_maxima:
-            # Agregamos el país que cumple con el filtro
             paises_filtrados.append(pais)
 
-    # Mostramos el resultado del filtro
     mostrar_paises_filtrados(paises_filtrados)
 
 
@@ -125,7 +108,6 @@ def menu_filtros(lista_paises: list[dict]) -> None:
     Args:
         lista_paises: Lista global de diccionarios de países registrados.
     """
-    # Verificamos que existan países cargados
     if len(lista_paises) == 0:
         print("\nNo hay países cargados.")
         return
