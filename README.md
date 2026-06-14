@@ -56,7 +56,6 @@ El sistema permite:
 * data/paises.csv
 * modulos/**init**.py
 * modulos/abm_paises.py
-* modulos/analitica_paises.py
 * modulos/busquedas.py
 * modulos/datos.py
 * modulos/estadisticas.py
@@ -93,7 +92,7 @@ El programa presenta las siguientes opciones:
 5. Filtrar países
 6. Ordenar países
 7. Ver estadísticas
-8. Salir
+0. Salir
 
 ## Decisiones de diseño y programación
 
