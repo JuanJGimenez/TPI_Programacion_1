@@ -29,20 +29,15 @@ def buscar_pais(lista_paises: list[dict]) -> None:
     )
     # Lista donde se guardarán los países encontrados
     paises_encontrados = []
-    # Recorremos la lista de países
     for pais in lista_paises:
-        # Comparamos ignorando mayúsculas y minúsculas
-        # También permite coincidencias parciales
         if pais_buscado in pais["pais"].strip().lower():
-            # Agregamos el país encontrado a la lista
             paises_encontrados.append(pais)
 
-    # Verificamos si no se encontró ningún país
     if len(paises_encontrados) == 0:
         print("\nNo se encontraron países con ese nombre.")
         return
 
     print("\nPAÍSES ENCONTRADOS")
-    # Recorremos la lista de países encontrados y mostramos cada uno
+
     for pais in paises_encontrados:
         datos.mostrar_pais(pais)
