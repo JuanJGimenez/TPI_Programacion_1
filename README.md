@@ -7,7 +7,7 @@ Año: 2026
 ## Integrantes
 
 * Emiliano Rojas
-* Juan Giménez
+* Juan José Giménez
   
 ## Repositorio
 

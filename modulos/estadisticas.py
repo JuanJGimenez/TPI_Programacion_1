@@ -1,142 +1,179 @@
-# filtros.py
-
-# Módulo de filtros: permite filtrar países por continente,
-# población y superficie.
-
-
-from modulos import validaciones
+# estadisticas.py
+# Módulo de estadísticas: calcula y muestra indicadores sobre el dataset de países
+# (mayor/menor población, promedios y cantidad de países por continente).
 
 
-def mostrar_paises_filtrados(paises_filtrados):
+def pais_mayor_poblacion(lista_paises: list[dict]) -> dict | None:
+    """
+    Determina el país con la mayor cantidad de población de la lista.
 
-    # Verificamos si la lista de resultados está vacía
-    if len(paises_filtrados) == 0:
-        print("\nNo se encontraron países con ese filtro.")
-        return
+    Recorre la colección comparando el valor de población de cada país
+    y conserva el de mayor valor.
 
-    print("\nPAÍSES FILTRADOS")
+    Args:
+        lista_paises: Lista global de diccionarios de países registrados.
 
-    # Recorremos la lista de países filtrados
-    for pais in paises_filtrados:
-
-        # Mostramos los datos de cada país
-        print(f"\nPaís: {pais['pais']}")
-        print(f"Población: {pais['poblacion']}")
-        print(f"Superficie: {pais['superficie']} km²")
-        print(f"Continente: {pais['continente']}")
-
-
-def filtrar_por_continente(lista_paises):
-
-    # Verificamos que existan países cargados
+    Returns:
+        El diccionario del país con mayor población;
+        None si la lista está vacía.
+    """
+    # Si no hay países, no hay máximo que devolver
     if len(lista_paises) == 0:
-        print("\nNo hay países cargados.")
-        return
+        return None
 
-    # Pedimos el continente a filtrar
-    continente_buscado = validaciones.pedir_texto(
-        "Ingrese el continente a filtrar: "
-    ).strip().lower()
+    # Tomamos el primer país como referencia inicial
+    mayor = lista_paises[0]
+    # Recorremos la lista buscando una población más alta
+    for pais in lista_paises:
+        if pais["poblacion"] > mayor["poblacion"]:
+            mayor = pais
+    # Devolvemos el país con mayor población
+    return mayor
 
-    # Lista donde se guardarán los países filtrados
-    paises_filtrados = []
 
+def pais_menor_poblacion(lista_paises: list[dict]) -> dict | None:
+    """
+    Determina el país con la menor cantidad de población de la lista.
+
+    Recorre la colección comparando el valor de población de cada país
+    y conserva el de menor valor.
+
+    Args:
+        lista_paises: Lista global de diccionarios de países registrados.
+
+    Returns:
+        El diccionario del país con menor población;
+        None si la lista está vacía.
+    """
+    # Si no hay países, no hay mínimo que devolver
+    if len(lista_paises) == 0:
+        return None
+
+    # Tomamos el primer país como referencia inicial
+    menor = lista_paises[0]
+    # Recorremos la lista buscando una población más baja
+    for pais in lista_paises:
+        if pais["poblacion"] < menor["poblacion"]:
+            menor = pais
+    # Devolvemos el país con menor población
+    return menor
+
+
+def promedio_poblacion(lista_paises: list[dict]) -> float:
+    """
+    Calcula el promedio de población de todos los países de la lista.
+
+    Suma la población de cada país y la divide por la cantidad total de países.
+
+    Args:
+        lista_paises: Lista global de diccionarios de países registrados.
+
+    Returns:
+        El promedio de población como número decimal;
+        0 si la lista está vacía.
+    """
+    # Evitamos la división por cero cuando la lista está vacía
+    if len(lista_paises) == 0:
+        return 0
+
+    # Acumulamos la población de todos los países
+    total = 0
+    for pais in lista_paises:
+        total += pais["poblacion"]
+    # Devolvemos el promedio
+    return total / len(lista_paises)
+
+
+def promedio_superficie(lista_paises: list[dict]) -> float:
+    """
+    Calcula el promedio de superficie (en km²) de todos los países de la lista.
+
+    Suma la superficie de cada país y la divide por la cantidad total de países.
+
+    Args:
+        lista_paises: Lista global de diccionarios de países registrados.
+
+    Returns:
+        El promedio de superficie como número decimal;
+        0 si la lista está vacía.
+    """
+    # Evitamos la división por cero cuando la lista está vacía
+    if len(lista_paises) == 0:
+        return 0
+
+    # Acumulamos la superficie de todos los países
+    total = 0
+    for pais in lista_paises:
+        total += pais["superficie"]
+    # Devolvemos el promedio
+    return total / len(lista_paises)
+
+
+def cantidad_por_continente(lista_paises: list[dict]) -> dict:
+    """
+    Cuenta cuántos países hay en cada continente.
+
+    Recorre la lista y arma un diccionario que asocia cada continente
+    con la cantidad de países que le corresponden.
+
+    Args:
+        lista_paises: Lista global de diccionarios de países registrados.
+
+    Returns:
+        Un diccionario con el formato {continente: cantidad_de_paises}.
+        Si la lista está vacía, devuelve un diccionario vacío.
+    """
+    # Diccionario donde se acumulan los conteos por continente
+    conteo = {}
     # Recorremos la lista de países
     for pais in lista_paises:
+        continente = pais["continente"]
+        # Si el continente ya existe, sumamos uno; si no, lo inicializamos en uno
+        if continente in conteo:
+            conteo[continente] += 1
+        else:
+            conteo[continente] = 1
+    # Devolvemos el conteo final
+    return conteo
 
-        # Comparamos ignorando mayúsculas y minúsculas
-        if pais["continente"].strip().lower() == continente_buscado:
 
-            # Agregamos el país que cumple con el filtro
-            paises_filtrados.append(pais)
+def mostrar_estadisticas(lista_paises: list[dict]) -> None:
+    """
+    Calcula y muestra en consola todas las estadísticas del dataset de países.
 
-    # Mostramos el resultado del filtro
-    mostrar_paises_filtrados(paises_filtrados)
+    Combina los indicadores del módulo (mayor y menor población, promedios de
+    población y superficie, y cantidad de países por continente) y los imprime
+    de forma legible. Si no hay países cargados, emite un aviso controlado.
 
-
-def filtrar_por_poblacion(lista_paises):
-
+    Args:
+        lista_paises: Lista global de diccionarios de países registrados.
+    """
     # Verificamos que existan países cargados
     if len(lista_paises) == 0:
         print("\nNo hay países cargados.")
         return
 
-    print("\nFILTRO POR RANGO DE POBLACIÓN")
+    # Calculamos cada indicador usando las funciones del módulo
+    mayor = pais_mayor_poblacion(lista_paises)
+    menor = pais_menor_poblacion(lista_paises)
+    prom_poblacion = promedio_poblacion(lista_paises)
+    prom_superficie = promedio_superficie(lista_paises)
+    conteo_continentes = cantidad_por_continente(lista_paises)
 
-    # Pedimos el rango de población
-    poblacion_minima, poblacion_maxima = validaciones.pedir_rango()
+    # Mostramos los resultados
+    print("\nESTADÍSTICAS")
+    print(
+        f"\nPaís con mayor población: {mayor['pais']} "
+        f"({mayor['poblacion']} habitantes)"
+    )
+    print(
+        f"País con menor población: {menor['pais']} "
+        f"({menor['poblacion']} habitantes)"
+    )
+    print(f"Promedio de población: {round(prom_poblacion, 2)} habitantes")
+    print(f"Promedio de superficie: {round(prom_superficie, 2)} km²")
 
-    # Lista donde se guardarán los países filtrados
-    paises_filtrados = []
-
-    # Recorremos la lista de países
-    for pais in lista_paises:
-
-        # Verificamos si la población está dentro del rango ingresado
-        if poblacion_minima <= pais["poblacion"] <= poblacion_maxima:
-
-            # Agregamos el país que cumple con el filtro
-            paises_filtrados.append(pais)
-
-    # Mostramos el resultado del filtro
-    mostrar_paises_filtrados(paises_filtrados)
-
-
-def filtrar_por_superficie(lista_paises):
-
-    # Verificamos que existan países cargados
-    if len(lista_paises) == 0:
-        print("\nNo hay países cargados.")
-        return
-
-    print("\nFILTRO POR RANGO DE SUPERFICIE")
-
-    # Pedimos el rango de superficie
-    superficie_minima, superficie_maxima = validaciones.pedir_rango()
-
-    # Lista donde se guardarán los países filtrados
-    paises_filtrados = []
-
-    # Recorremos la lista de países
-    for pais in lista_paises:
-
-        # Verificamos si la superficie está dentro del rango ingresado
-        if superficie_minima <= pais["superficie"] <= superficie_maxima:
-
-            # Agregamos el país que cumple con el filtro
-            paises_filtrados.append(pais)
-
-    # Mostramos el resultado del filtro
-    mostrar_paises_filtrados(paises_filtrados)
-
-
-def menu_filtros(lista_paises):
-
-    # Verificamos que existan países cargados
-    if len(lista_paises) == 0:
-        print("\nNo hay países cargados.")
-        return
-
-    # Repite el menú de filtros hasta que el usuario decida volver
-    while True:
-
-        print("\nMENÚ DE FILTROS")
-        print("1. Filtrar por continente")
-        print("2. Filtrar por rango de población")
-        print("3. Filtrar por rango de superficie")
-        print("0. Volver al menú principal")
-
-        # Pedimos y validamos la opción del menú
-        opcion = validaciones.validar_opcion_menu(0, 3)
-
-        if opcion == 1:
-            filtrar_por_continente(lista_paises)
-
-        elif opcion == 2:
-            filtrar_por_poblacion(lista_paises)
-
-        elif opcion == 3:
-            filtrar_por_superficie(lista_paises)
-
-        elif opcion == 0:
-            return
+    print("\nCantidad de países por continente:")
+    # Recorremos el diccionario de conteos y mostramos cada continente
+    for continente, cantidad in conteo_continentes.items():
+        print(f"- {continente}: {cantidad}")

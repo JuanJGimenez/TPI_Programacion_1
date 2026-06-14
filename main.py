@@ -13,7 +13,7 @@ from modulos import (
     filtros,
     ordenamiento,
     validaciones,
-    abm_paises
+    abm_paises,
 )
 
 # Ruta del archivo CSV de países
@@ -41,7 +41,6 @@ def main():
 
     # Repite el menú hasta que el usuario decida salir
     while True:
-
         # Mostramos el menú principal
         mostrar_menu()
 
@@ -54,11 +53,11 @@ def main():
 
         # Opción 2 - Agregar un país
         elif opcion == 2:
-            abm_paises.agregar_pais(lista_paises)
+            abm_paises.agregar_pais(lista_paises, RUTA_CSV)
 
         # Opción 3 - Actualizar un país existente
         elif opcion == 3:
-            abm_paises.actualizar_pais(lista_paises)
+            abm_paises.actualizar_pais(lista_paises, RUTA_CSV)
 
         # Opción 4 - Buscar países por nombre
         elif opcion == 4:
