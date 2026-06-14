@@ -1,9 +1,7 @@
 # abm_paises.py
 # Módulo ABM: permite agregar países y actualizar sus datos.
 
-
 from modulos import datos, validaciones
-
 
 def buscar_pais_exacto(lista_paises: list[dict], nombre_pais: str) -> dict | None:
     """
@@ -22,13 +20,11 @@ def buscar_pais_exacto(lista_paises: list[dict], nombre_pais: str) -> dict | Non
     """
     # Normalizamos el nombre buscado
     pais_buscado = nombre_pais.strip().lower()
-    # Recorremos la lista de países
+
     for pais in lista_paises:
         # Comparamos ignorando mayúsculas, minúsculas y espacios
         if pais["pais"].strip().lower() == pais_buscado:
-            # Devolvemos el país encontrado
             return pais
-    # Si no se encuentra, devolvemos None
     return None
 
 
@@ -45,20 +41,17 @@ def agregar_pais(lista_paises: list[dict], ruta_csv: str) -> None:
         lista_paises: Lista global de diccionarios de países registrados.
         ruta_csv: Ruta del archivo CSV donde se guardarán los cambios.
     """
-    # Pedimos el nombre del país
+
     nombre_pais = validaciones.pedir_texto("Ingrese el nombre del país: ").title()
     # Verificamos si el país ya existe
     if buscar_pais_exacto(lista_paises, nombre_pais):
         print("\nEl país ya existe en la lista.")
         return
-
-    # Pedimos la población del país
+    
     poblacion = validaciones.validar_minimo("Ingrese la población del país: ", 1)
-    # Pedimos la superficie del país
-    superficie = validaciones.validar_minimo(
-        "Ingrese la superficie del país en km²: ", 1
-    )
-    # Pedimos el continente del país
+
+    superficie = validaciones.validar_minimo("Ingrese la superficie del país en km²: ", 1)
+    
     continente = validaciones.pedir_texto("Ingrese el continente del país: ").title()
 
     # Creamos el diccionario del nuevo país
@@ -90,14 +83,12 @@ def actualizar_pais(lista_paises: list[dict], ruta_csv: str) -> None:
         lista_paises: Lista global de diccionarios de países registrados.
         ruta_csv: Ruta del archivo CSV donde se guardarán los cambios.
     """
-    # Verificamos que existan países cargados
+    
     if len(lista_paises) == 0:
         print("\nNo hay países cargados.")
         return
 
-    # Pedimos el nombre del país a actualizar
     nombre_pais = validaciones.pedir_texto("Ingrese el nombre del país a actualizar: ")
-    # Buscamos el país en la lista
     pais = buscar_pais_exacto(lista_paises, nombre_pais)
 
     # Verificamos si el país existe
