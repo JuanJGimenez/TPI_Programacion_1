@@ -37,13 +37,9 @@ def cargar_paises(ruta_data_paises_csv: str) -> list[dict]:
             for fila_pais in lector_csv:
                 # Creamos un diccionario con los datos del país
                 pais = {
-                    # Guardamos el nombre del país usando la clave "pais"
                     "pais": fila_pais["nombre"].strip(),
-                    # Convertimos la población a número entero
                     "poblacion": int(fila_pais["poblacion"]),
-                    # Convertimos la superficie a número entero
                     "superficie": int(fila_pais["superficie"]),
-                    # Guardamos el continente
                     "continente": fila_pais["continente"].strip(),
                 }
                 # Verificamos que los textos no estén vacíos
@@ -57,17 +53,16 @@ def cargar_paises(ruta_data_paises_csv: str) -> list[dict]:
                 # Agregamos el país a la lista general
                 lista_paises.append(pais)
 
-    # Error si el archivo no existe
+    
     except FileNotFoundError:
         print("Error: no se encontró el archivo CSV de países.")
-    # Error si el CSV tiene columnas incorrectas
+    
     except KeyError:
         print("Error: el archivo CSV no tiene el formato correcto.")
-    # Error si hay campos vacíos o números inválidos
+    
     except ValueError as error:
         print(f"Error: {error}")
 
-    # Devolvemos la lista completa de países
     return lista_paises
 
 
