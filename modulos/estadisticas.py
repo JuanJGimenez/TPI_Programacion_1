@@ -17,10 +17,8 @@ def pais_mayor_poblacion(lista_paises: list[dict]) -> dict | None:
         El diccionario del país con mayor población;
         None si la lista está vacía.
     """
-    # Si no hay países, no hay máximo que devolver
     if len(lista_paises) == 0:
         return None
-
     # Tomamos el primer país como referencia inicial
     mayor = lista_paises[0]
     # Recorremos la lista buscando una población más alta
@@ -45,10 +43,8 @@ def pais_menor_poblacion(lista_paises: list[dict]) -> dict | None:
         El diccionario del país con menor población;
         None si la lista está vacía.
     """
-    # Si no hay países, no hay mínimo que devolver
     if len(lista_paises) == 0:
         return None
-
     # Tomamos el primer país como referencia inicial
     menor = lista_paises[0]
     # Recorremos la lista buscando una población más baja
@@ -75,7 +71,6 @@ def promedio_poblacion(lista_paises: list[dict]) -> float:
     # Evitamos la división por cero cuando la lista está vacía
     if len(lista_paises) == 0:
         return 0
-
     # Acumulamos la población de todos los países
     total = 0
     for pais in lista_paises:
@@ -97,10 +92,8 @@ def promedio_superficie(lista_paises: list[dict]) -> float:
         El promedio de superficie como número decimal;
         0 si la lista está vacía.
     """
-    # Evitamos la división por cero cuando la lista está vacía
     if len(lista_paises) == 0:
         return 0
-
     # Acumulamos la superficie de todos los países
     total = 0
     for pais in lista_paises:
@@ -123,7 +116,6 @@ def cantidad_por_continente(lista_paises: list[dict]) -> dict:
         Un diccionario con el formato {continente: cantidad_de_paises}.
         Si la lista está vacía, devuelve un diccionario vacío.
     """
-    # Diccionario donde se acumulan los conteos por continente
     conteo = {}
     # Recorremos la lista de países
     for pais in lista_paises:
