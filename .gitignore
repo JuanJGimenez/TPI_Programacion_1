@@ -15,3 +15,7 @@ requerimientos TPI/
 
 # Backups y archivos temporales
 originales/
+
+# Video
+video/
+*.mp4
