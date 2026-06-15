@@ -11,7 +11,7 @@ Año: 2026
   
 ## Repositorio
 
-https://github.com/JuanJGimenez/TPI_Programacion_1
+[Ver repositorio del proyecto](https://github.com/JuanJGimenez/TPI_Programacion_1)
 
 ## Descripción del proyecto
 
@@ -151,13 +151,13 @@ Todas las decisiones finales de implementación, adaptación, validación y orga
 
 Link del video explicativo:
 
-https://www.youtube.com/watch?v=tZBCdGdpIq8
+[Ver video explicativo](https://www.youtube.com/watch?v=tZBCdGdpIq8)
 
 ## Informe PDF
 
 Link del informe:
 
-https://github.com/JuanJGimenez/TPI_Programacion_1/blob/main/Informe_TPI_Programacion_1.pdf
+[Ver informe PDF](https://github.com/JuanJGimenez/TPI_Programacion_1/blob/main/Informe_TPI_Programacion_1.pdf)
 
 ## Conclusión
 
