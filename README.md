@@ -149,15 +149,15 @@ Todas las decisiones finales de implementación, adaptación, validación y orga
 
 ## Video explicativo
 
-Link al video explicativo:
+Link del video explicativo:
 
 https://www.youtube.com/watch?v=tZBCdGdpIq8
 
 ## Informe PDF
 
-Link al informe/documentación:
+Link del informe:
 
-[Agregar link]
+https://github.com/JuanJGimenez/TPI_Programacion_1/blob/main/Informe_TPI_Programacion_1.pdf
 
 ## Conclusión
 
