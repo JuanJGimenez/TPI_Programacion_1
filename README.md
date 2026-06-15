@@ -151,7 +151,7 @@ Todas las decisiones finales de implementación, adaptación, validación y orga
 
 Link al video explicativo:
 
-[Agregar link]
+https://www.youtube.com/watch?v=tZBCdGdpIq8
 
 ## Informe PDF
 
